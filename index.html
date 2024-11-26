@@ -13,9 +13,11 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
 
-    <audio autoplay>
-        <source src="msc.mp3" type="audio/mpeg">
-    </audio>
+    <audio id="musica" src="msc.ogg" preload="auto"> 
+        <style>
+             #musica { display: none }
+        </style>
+</audio>
 </head>
 <body>
       
@@ -43,6 +45,13 @@
     
         <script src="script.js"></script>
     </secttion>
+    <script>
+        let html = document.querySelector("html");
+        let musica = document.querySelector("#musica");
+        html.addEventListener('click', () => {
+            musica.play();
+        })
+    </script>
     
 </body>
 </html>
