@@ -8,3 +8,4 @@ overlay.addEventListener('click', function() {
     overlay.style.display = 'none';
     content.style.display = 'block';
 });
+

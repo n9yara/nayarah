@@ -6,52 +6,52 @@
     <title>T_T</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="icon" href="favicon/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
 
-    <audio id="musica" src="msc.ogg" preload="auto" > 
+    <audio id="musica" src="audio/msc.mp3" preload="auto"> 
         <style>
              #musica { accent-color: #4CAF50; }
-
-             
         </style>
-</audio>
+    </audio>
+
+
 </head>
 <body>
-      
-    
-    <secttion>
-        
-     <h1>nayara</h1>
-        
-        <div id="imagem">
-            <img src="nay.png" alt="">
-        </div>
-        <div class="social-icons">
-            <a href="https://github.com/n9yara" target="_blank"><i class="fa-brands fa-github"></i></a> 
-            <a href="https://steamcommunity.com/id/nayara/" target="_blank">
-             <i class="fa-brands fa-steam"></i></a>
-             <a href="https://www.last.fm/user/nayeon0_0" target="_blank"><i class="fa-brands fa-lastfm"></i></a>
-             <a href="https://www.youtube.com/@hauntedmound123/videos" target="_blank"><i class="fa-brands fa-youtube"></i></a>
+    <section>  
+        <h1>nayara</h1>
 
+        <div id="imagem">
+            <img src="nay.png" alt="Imagem de Nayara">
         </div>
+        
+        
+        <div class="social-icons">
+            <a href="https://github.com/n9yara" target="_blank"><i class="fa-brands fa-github"></i></a>
+            <a href="https://steamcommunity.com/id/nayara/" target="_blank"><i class="fa-brands fa-steam"></i></a>
+            <a href="https://www.last.fm/user/nayeon0_0" target="_blank"><i class="fa-brands fa-lastfm"></i></a>
+            <a href="https://www.youtube.com/@hauntedmound123/videos" target="_blank"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+        <div id="lastplayed">
+            <div id="song-image"></div> 
+            <span id="last-played" class="blurred">Last played: the song will show here when it's loaded.</span>
+           
+        </div>
+
+        
+
         <div id="overlay" class="overlay">
             <button id="revealButton">enter</button>
         </div>
 
-        <div>
-            <p>BGM - <a href="https://www.youtube.com/watch?v=_wTQdU-voCo&ab_channel=hfgdj" target="_blank">見慣れた風景</a></p>
-        </div>
         
-    
-       
-    
-        <script src="script.js"></script>
-    </secttion>
+    </section>
+
+    <script src="script.js"></script>
+
     <script>
         let html = document.querySelector("html");
         let musica = document.querySelector("#musica");
@@ -60,5 +60,42 @@
         })
     </script>
     
+    <script>
+   fetch('https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=nayeon0_0&api_key=bc5881cd4ea493a3b9880cd3f46420a1&format=json')
+    .then(res => res.json())
+    .then((data) => {
+        console.log(data);
+        if (!data || !data.recenttracks || !data.recenttracks.track || data.recenttracks.track.length === 0) {
+            console.error('Dados da música não encontrados');
+            let lastPlayed = document.querySelector('#last-played');
+            lastPlayed.innerHTML = 'Nenhuma música tocada recentemente.';
+            return;
+        }
+
+        const track = data.recenttracks.track[0];
+
+        if (!track || !track.name || !track.artist || !track.url) {
+            console.error('Dados da música não encontrados');
+            return;
+        }
+
+        let lastPlayed = document.querySelector('#last-played');
+        lastPlayed.innerHTML = `Last played song: <a href='${track.url}' target='_blank'>${track.name} (${track.artist['#text']})</a>`;
+        lastPlayed.classList.remove("blurred");
+
+        
+        let songImageDiv = document.querySelector('#song-image');
+        if (track.image && track.image.length > 0) {
+            let imageUrl = track.image[2]['#text']; 
+            songImageDiv.innerHTML = `<img src="${imageUrl}" alt="Capa da música ${track.name}">`;
+        }
+    })
+    .catch(err => {
+        console.error('Erro ao buscar dados:', err);
+        let lastPlayed = document.querySelector('#last-played');
+        lastPlayed.innerHTML = 'Erro ao carregar a última música.';
+    });
+
+    </script>
 </body>
 </html>
