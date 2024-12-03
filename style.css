@@ -6,7 +6,14 @@
     box-sizing: border-box;
 }
 
-
+html, body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    overflow-x: hidden; 
+    height: 100%;
+    width: 100%; 
+}
 
 body {
     font-family: Arial, sans-serif;
@@ -249,15 +256,27 @@ audio {
 }
 
 #lastplayed {
-    display: flex;            
-    align-items: center;      
+    position: relative;
+    display: flex;
+    align-items: center;
     background-image: linear-gradient(to bottom right, #5212a5, rgba(0, 0, 0, 0.349));
-    width: 500px;             
-    height: 150px;            
+    width: 90%; 
+    max-width: 500px; 
+    height: auto; 
+    max-height: 150px;
     padding: 10px;
     border-radius: 10px;
     overflow: hidden;
-    margin-left:50px ;
+    margin-left: auto; 
+    margin-right: auto; 
+    box-sizing: border-box; 
+}
+
+@media (max-width: 600px) {
+    #lastplayed {
+        width: 100%; 
+        margin-left: 0; 
+    }
 }
 
 
