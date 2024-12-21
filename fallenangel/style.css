@@ -50,7 +50,9 @@ div#sec > img {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 30px; 
+    margin-top: 30px;
+}
+
 
 .social-icons a {
     display: inline-flex;
