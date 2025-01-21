@@ -223,8 +223,8 @@ h1 {
 }
 
 div#imagem > img{
-    max-width: 75%;
-    border-radius: 50%;
+    max-width: 65%;
+    border-radius: 55%;
 
 }
 
@@ -307,7 +307,7 @@ audio {
 }
 
 #last-played a{
-    color: rgb(106, 170, 212);
+    color: #f5b0ef;
     
 }
 
