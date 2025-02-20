@@ -45,6 +45,9 @@
         </div>
 
         
+        <div id="presence">Loading...</div>
+
+        
     </section>
 
     <script src="script.js"></script>
@@ -88,5 +91,40 @@
     });
 
     </script>
+
+<script>
+    const userId = "320398381677674502"; 
+
+    async function fetchPresence() {
+        try {
+            const response = await fetch(`https://api.lanyard.rest/v1/users/${userId}`);
+            const { success, data } = await response.json();
+            
+            if (!success) {
+                document.getElementById("presence").innerText = "Failed to load presence.";
+                return;
+            }
+
+            const { discord_user, activities } = data;
+            let presenceText = `<i class="fa-brands fa-discord"></i><strong> ${discord_user.global_name}</strong><br>`;
+
+            if (activities.length > 0) {
+                const activity = activities[0];
+                presenceText += ` Playing <strong>${activity.name}</strong>`;
+            } else {
+                presenceText += "⚫ Idle/Offline";
+            }
+
+            document.getElementById("presence").innerHTML = presenceText;
+        } catch (error) {
+            document.getElementById("presence").innerText = "Error loading presence.";
+            console.error(error);
+        }
+    }
+
+    fetchPresence();
+    setInterval(fetchPresence, 5000); 
+</script>
+
 </body>
 </html>
