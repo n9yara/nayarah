@@ -11,7 +11,6 @@
     <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
-
 </head>
 <body>
     <section>  
@@ -33,7 +32,6 @@
             <div id="song-info" class="last-played-info"></div>
         </div>
         
-
         <div id="overlay" class="overlay">
             <button id="revealButton">enter</button>
         </div>
@@ -60,25 +58,31 @@
                 let presenceText = `<i class="fa-brands fa-discord"></i><strong> ${discord_user.global_name}</strong><br>`;
 
                 if (activities.length > 0) {
-                    const activity = activities[0];
+                    let activity = activities[0];
+                    
+                    // Verifica se a atividade é Spotify
+                    if (activity.name === "Spotify" && activities.length > 1) {
+                        activity = activities[1];  // Substitui pela próxima atividade disponível
+                    }
+                    
                     presenceText += ` Playing <strong>${activity.name}</strong>`;
                 } else {
                     presenceText += "⚫ Idle/Offline";
                 }
 
-                if (spotify) {
-            const { album, album_art_url, artist, song } = spotify;
-            document.getElementById("song-image").innerHTML = `<img src="${album_art_url}" alt="Album Art">`;
-            document.getElementById("song-info").innerHTML = `
-            <strong>${song}</strong> by ${artist}<br>
-    `;
-        } else {
-            document.getElementById("song-image").innerHTML = "";
-            document.getElementById("song-info").innerHTML = "nothing is playing right now";
-}
-
-
                 document.getElementById("presence").innerHTML = presenceText;
+
+                if (spotify) {
+                    const { album, album_art_url, artist, song } = spotify;
+                    document.getElementById("song-image").innerHTML = `<img src="${album_art_url}" alt="Album Art">`;
+                    document.getElementById("song-info").innerHTML = `
+                        <strong>${song}</strong> by ${artist}<br>
+                    `;
+                } else {
+                    document.getElementById("song-image").innerHTML = "";
+                    document.getElementById("song-info").innerHTML = "nothing is playing right now";
+                }
+
             } catch (error) {
                 document.getElementById("presence").innerText = "Error loading presence.";
                 console.error(error);
@@ -86,7 +90,7 @@
         }
 
         fetchPresence();
-        setInterval(fetchPresence, 5000); 
+        setInterval(fetchPresence, 5000);
     </script>
 </body>
 </html>
